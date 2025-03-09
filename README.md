@@ -1,49 +1,44 @@
-# Intro to Processor Architecture - Project (Spring 2022)
+# Y86-64 Sequential Implementation
 
-## 1.Overall Goal (Total Marks - 100)
+## Overview
 
-Each group (2 students) must develop a processor architecture design based on the Y86 ISA using Verilog. The design
-should be thoroughly tested to satisfy all the specification requirements using simulations. The project submission
-must include the following
+This project involves the development of a processor architecture based on the Y86-64 Instruction Set Architecture (ISA) using Verilog. The design focuses on a sequential implementation, thoroughly tested to meet all specified requirements through simulations.
 
-- A report describing the design details of the various stages of the processor architecture, the supported features
-(including simulation snapshots of the features supported) and the challenges encountered. (Marks-15)
-- Verilog code for processor design and testbench
+## Features
 
-## 2.Specifications
+- **Sequential Design**: Implements a sequential processor architecture.
+- **Y86-64 ISA Support**: Executes all instructions from the Y86-64 ISA, except for `call` and `ret` instructions.
+- **Modular Design**: Each stage of the processor is coded as a separate module and tested independently to facilitate seamless integration.
 
-The required specifications in the processor design are as follows:
+## Design Approach
 
-- A bare minimum processor architecture must implement a sequential design as discussed in Section 4.3 of
-textbook. (Marks-25)
-- A full fledged processor architecture implementation with 5 stage pipeline as discussed in Sections 4.4 and 4.5
-of textbook, which includes support for eliminating pipeline hazards. (Marks-40)
+The design follows a modular approach, with each stage of the processor implemented as an independent module. This methodology ensures that each component can be tested individually, simplifying the integration process. The primary stages include:
 
-Your submission should at least have the first design mentioned above in order to get minimal marks. However, your
-goal should be to submit a design with pipelined architecture so that you score maximum marks.
+1. **Fetch**: Reads instructions from memory.
+2. **Decode**: Interprets the fetched instructions and reads the necessary registers.
+3. **Execute**: Performs arithmetic or logical operations.
+4. **Memory**: Handles memory read or write operations.
+5. **Write Back**: Writes results back to the appropriate registers.
+6. **Program Counter (PC) Update**: Updates the program counter to point to the next instruction.
 
-### Important points to notice:
-- Both the above implementations must execute all the instructions from Y86 ISA except call and retinstructions
-to get the above mentioned marks.
-- Additional marks if you also execute call and ret instructions. (Marks-10)
+## File Structure
 
-## 3.Design Approach
-The design approach should be modular, i.e., each stage has to be coded as separate modules and tested independently
-in order to help the integration without too many issues.
+- `Fetch.v`: Handles the instruction fetch stage.
+- `Decode.v`: Manages the instruction decode stage.
+- `Execute.v`: Responsible for the execution stage.
+- `Memory.v`: Oversees memory operations.
+- `Writeback.v`: Manages the write-back stage.
+- `PC_Update.v`: Updates the program counter.
+- `Y86-64.v`: Top-level module integrating all stages.
+- `Testbenches/`: Contains testbenches for individual modules and the integrated processor.
+- `Documentation/`: Includes the project report detailing design decisions, supported features, simulation snapshots, and challenges encountered.
 
-In tutorial sessions, the TAs will discuss with you how to implement the memory block, which can be used in the
-design.
+## Testing and Verification
 
-## 4.Targets and Evaluation
+Each module has been independently tested using specific testbenches to verify its functionality. Additionally, integrated tests have been conducted to ensure cohesive operation across all modules. The tests include:
 
-Each group will be evaluated twice during the project - firstly on Feb 15 to understand your progress and give you feedback based on it. (Marks-10)
+- **Module-Specific Tests**: Validate the functionality of individual stages.
+- **Integrated Tests**: Ensure seamless interaction between all stages.
+- **Assembly Program Execution**: Executes assembly programs written in Y86-64 ISA to verify the processor's functionality.
 
-The final evaluation will happen in the 1st or 2nd week of March (dates will be announced later).
 
-## 5.Suggestions for Design Verification
-
-Please adhere to the following verification approaches as much as possible.
-- You can individually test each stage/module for its intended functionality by creating module specific test
-inputs.
-- Please write an assembly program for any algorithm (e.g., sorting algorithm) using Y86 ISA and the corresponding encoded instructions and use the encoded instructions to test your integrated design.
-- If possible, you can also think of an automated testbench that will help you to verify your design efficiently, i.e., automatically verify the state of the processor and memory after execution of each instruction in the program.
